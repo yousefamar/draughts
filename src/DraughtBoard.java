@@ -65,7 +65,7 @@ public class DraughtBoard
 
 	}
 
-	public char getPiece(int x, int y) {return board[x][y];}
+	public char getPiece(int x, int y) throws ArrayIndexOutOfBoundsException{return board[x][y];}
 
 	public int getWhiteScore() { return whiteScore;}
 
@@ -82,9 +82,17 @@ public class DraughtBoard
 	  	/***
 	  	* Moves a black piece in a specified direction
 	  	***/
-
+		if(board[x+(direction==RIGHT?1:-1)][y-1]!=EMPTY) {
+			board[x+(direction==RIGHT?2:-2)][y-2]=getPiece(x, y);
+			board[x+(direction==RIGHT?1:-1)][y-1]=EMPTY;
+		} else
+			board[x+(direction==RIGHT?1:-1)][y-1]=getPiece(x, y);
+		if(y-2>6) {
+			blackScore++;
+			board[x+(direction==RIGHT?2:-2)][y-2]=EMPTY;
+		}
+		board[x][y]=EMPTY;
 	  	return 0;
-
 	}
 
 
@@ -94,9 +102,22 @@ public class DraughtBoard
 	  	/***
 	  	* Moves a white piece in a specified direction
 	  	***/
-
-	  	return 0;
-
+		if(board[x+(direction==RIGHT?1:-1)][y+1]!=EMPTY) {
+			board[x+(direction==RIGHT?2:-2)][y+2]=getPiece(x, y);
+			board[x+(direction==RIGHT?1:-1)][y+1]=EMPTY;
+			if(y+2>6) {
+				whiteScore++;
+				board[x+(direction==RIGHT?2:-2)][y+2]=EMPTY;
+			}
+		} else {
+			board[x+(direction==RIGHT?1:-1)][y+1]=getPiece(x, y);
+			if(y+1>6) {
+				whiteScore++;
+				board[x+(direction==RIGHT?1:-1)][y+1]=EMPTY;
+			}
+		}
+		board[x][y]=EMPTY;
+		return 0;
 	}
 
 	private char board[][];
@@ -108,5 +129,7 @@ public class DraughtBoard
     private int whiteScore=0;       // The number of white pieces over the black line
 
    	private int blackScore=0;       // The number of black pieces over the white line
+   	
+   	public boolean isWhitesTurn = false;
 }
 

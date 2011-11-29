@@ -179,23 +179,19 @@ class GameOfDraughtsFrame extends JFrame implements ActionListener
 		}
 		else if (source==BasicWhiteItem)
 		{
-		  System.out.println("Not implemented");
-		  /* Plug in basic white player here */
+			whitePlayer = new BasicPlayer();
 		}
 		else if (source==AdvancedWhiteItem)
 		{
-		  System.out.println("Not implemented");
-		  /* Plug in advanced white player here */
+			whitePlayer = new AdvancedPlayer();
 		}
 		else if (source==BasicBlackItem)
 		{
-		  System.out.println("Not implemented");
-		  /* Plug in basic black player here */
+			blackPlayer = new BasicPlayer();
 		}
 		else if (source==AdvancedBlackItem)
 		{
-		  System.out.println("Not implemented");
-		  /* Plug in advanced black player here */
+			blackPlayer = new AdvancedPlayer();
 		}
 
 	}
