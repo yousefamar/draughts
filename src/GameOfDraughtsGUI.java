@@ -167,33 +167,17 @@ class GameOfDraughtsFrame extends JFrame implements ActionListener
 	  	    else if (ws==bs)
               JOptionPane.showMessageDialog(this,"Drawn Game! "," ",JOptionPane.PLAIN_MESSAGE);
 
-		  }
-        }
-		else if (source==ExitItem)
-	    {
-		  /***
-		  * Quit the game
-		  ***/
-
-		  System.exit(0);
-		}
-		else if (source==BasicWhiteItem)
-		{
-			whitePlayer = new BasicPlayer();
-		}
-		else if (source==AdvancedWhiteItem)
-		{
-			whitePlayer = new AdvancedPlayer();
-		}
-		else if (source==BasicBlackItem)
-		{
-			blackPlayer = new BasicPlayer();
-		}
-		else if (source==AdvancedBlackItem)
-		{
-			blackPlayer = new AdvancedPlayer();
-		}
-
+			}
+		} else if (source == ExitItem)
+			System.exit(0);
+		else if (source == BasicWhiteItem)
+			whitePlayer = new BasicPlayer(DraughtBoard.WHITE);
+		else if (source == AdvancedWhiteItem)
+			whitePlayer = new AdvancedPlayer(DraughtBoard.WHITE);
+		else if (source == BasicBlackItem)
+			blackPlayer = new BasicPlayer(DraughtBoard.BLACK);
+		else if (source == AdvancedBlackItem)
+			blackPlayer = new AdvancedPlayer(DraughtBoard.BLACK);
 	}
 
 	private JMenuItem NewGameItem,NextMoveItem,ExitItem;

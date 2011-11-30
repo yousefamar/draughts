@@ -8,24 +8,21 @@
  *
 */
 
-
-public class DraughtBoard
-{
+public class DraughtBoard {
 
 	public static final char BLACK='b';	//represents a black piece
 	public static final char WHITE='w';	//represents a white piece
 	public static final char EMPTY='e';	//board position is empty
-
 	public static final char LEFT='l';	//a left move
 	public static final char RIGHT='r';	//a right move
+	
+	private char board[][];
+	private int whitePiecesLeft=12;
+	private int blackPiecesLeft=12;
+	private int whiteScore=0;       // The number of white pieces over the black line
+	private int blackScore=0;       // The number of black pieces over the white line
 
-	public DraughtBoard()
-	{
-
-	 	/***
-		* Initialize the board layout
-	  	***/
-
+	public DraughtBoard() {
 	  	board=new char[8][8];
 
 	  	for (int x=0; x<8; x++)
@@ -33,15 +30,12 @@ public class DraughtBoard
 	        board[x][y]=EMPTY;
 
 	  	setBoard();
-
 	}
 
-	public void setBoard()
-	{
-
-    	/***
-        * Initialize the board layout
-        ***/
+	/**
+	 * Initializes the board layout.
+	 */
+	public void setBoard() {
 
         whitePiecesLeft=12;
 
@@ -65,6 +59,13 @@ public class DraughtBoard
 
 	}
 
+	/**
+	 * Gets a piece on the board.
+	 * @param x
+	 * @param y
+	 * @return Piece in specified position.
+	 * @throws ArrayIndexOutOfBoundsException
+	 */
 	public char getPiece(int x, int y) throws ArrayIndexOutOfBoundsException{return board[x][y];}
 
 	public int getWhiteScore() { return whiteScore;}
@@ -75,12 +76,15 @@ public class DraughtBoard
 
 	public int getBlackPiecesLeft() { return blackPiecesLeft;}
 
-
-	public int moveBlack(int x, int y, char direction)
-	{
-	  	/***
-	  	* Moves a black piece in a specified direction
-	  	***/
+	/**
+	 * Moves a black piece in a specified direction.
+	 * Method handles captures and wins but
+	 * does not check for move validity.
+	 * @param x
+	 * @param y
+	 * @param direction
+	 */
+	public void moveBlack(int x, int y, char direction) {
 		if(board[x+(direction==RIGHT?1:-1)][y-1]!=EMPTY) {
 			board[x+(direction==RIGHT?2:-2)][y-2]=getPiece(x, y);
 			board[x+(direction==RIGHT?1:-1)][y-1]=EMPTY;
@@ -88,24 +92,28 @@ public class DraughtBoard
 			if(y-2<1) {
 				blackScore++;
 				board[x+(direction==RIGHT?2:-2)][y-2]=EMPTY;
+				blackPiecesLeft--;
 			}
 		} else {
 			board[x+(direction==RIGHT?1:-1)][y-1]=getPiece(x, y);
 			if(y-1<1) {
 				blackScore++;
 				board[x+(direction==RIGHT?1:-1)][y-1]=EMPTY;
+				blackPiecesLeft--;
 			}
 		}
 		board[x][y]=EMPTY;
-	  	return 0;
 	}
 
-
-	public int moveWhite(int x, int y, char direction)
-	{
-	  	/***
-	  	* Moves a white piece in a specified direction
-	  	***/
+	/**
+	 * Moves a white piece in a specified direction.
+	 * Method handles captures and wins but
+	 * does not check for move validity.
+	 * @param x
+	 * @param y
+	 * @param direction
+	 */
+	public void moveWhite(int x, int y, char direction) {
 		if(board[x+(direction==RIGHT?1:-1)][y+1]!=EMPTY) {
 			board[x+(direction==RIGHT?2:-2)][y+2]=getPiece(x, y);
 			board[x+(direction==RIGHT?1:-1)][y+1]=EMPTY;
@@ -113,28 +121,17 @@ public class DraughtBoard
 			if(y+2>6) {
 				whiteScore++;
 				board[x+(direction==RIGHT?2:-2)][y+2]=EMPTY;
+				whitePiecesLeft--;
 			}
 		} else {
 			board[x+(direction==RIGHT?1:-1)][y+1]=getPiece(x, y);
 			if(y+1>6) {
 				whiteScore++;
 				board[x+(direction==RIGHT?1:-1)][y+1]=EMPTY;
+				whitePiecesLeft--;
 			}
 		}
 		board[x][y]=EMPTY;
-		return 0;
 	}
-
-	private char board[][];
-
-	private int whitePiecesLeft=12;
-
-   	private int blackPiecesLeft=12;
-
-    private int whiteScore=0;       // The number of white pieces over the black line
-
-   	private int blackScore=0;       // The number of black pieces over the white line
-   	
-   	public boolean isWhitesTurn = false;
 }
 
