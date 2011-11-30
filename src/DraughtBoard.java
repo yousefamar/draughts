@@ -78,18 +78,23 @@ public class DraughtBoard
 
 	public int moveBlack(int x, int y, char direction)
 	{
-
 	  	/***
 	  	* Moves a black piece in a specified direction
 	  	***/
 		if(board[x+(direction==RIGHT?1:-1)][y-1]!=EMPTY) {
 			board[x+(direction==RIGHT?2:-2)][y-2]=getPiece(x, y);
 			board[x+(direction==RIGHT?1:-1)][y-1]=EMPTY;
-		} else
+			whitePiecesLeft--;
+			if(y-2<1) {
+				blackScore++;
+				board[x+(direction==RIGHT?2:-2)][y-2]=EMPTY;
+			}
+		} else {
 			board[x+(direction==RIGHT?1:-1)][y-1]=getPiece(x, y);
-		if(y-2>6) {
-			blackScore++;
-			board[x+(direction==RIGHT?2:-2)][y-2]=EMPTY;
+			if(y-1<1) {
+				blackScore++;
+				board[x+(direction==RIGHT?1:-1)][y-1]=EMPTY;
+			}
 		}
 		board[x][y]=EMPTY;
 	  	return 0;
@@ -98,13 +103,13 @@ public class DraughtBoard
 
 	public int moveWhite(int x, int y, char direction)
 	{
-
 	  	/***
 	  	* Moves a white piece in a specified direction
 	  	***/
 		if(board[x+(direction==RIGHT?1:-1)][y+1]!=EMPTY) {
 			board[x+(direction==RIGHT?2:-2)][y+2]=getPiece(x, y);
 			board[x+(direction==RIGHT?1:-1)][y+1]=EMPTY;
+			blackPiecesLeft--;
 			if(y+2>6) {
 				whiteScore++;
 				board[x+(direction==RIGHT?2:-2)][y+2]=EMPTY;

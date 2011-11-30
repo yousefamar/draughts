@@ -2,8 +2,7 @@ import java.util.Random;
 
 public class BasicPlayer extends Player{
 
-	public int movePiece(DraughtBoard board)
-	{
+	public int movePiece(DraughtBoard board) {
 		board.isWhitesTurn=!board.isWhitesTurn;
 		Random rand = new Random();
 		for (int y=0;y<8;y++)
@@ -47,26 +46,5 @@ public class BasicPlayer extends Player{
 					}
 				}
 		return 0;
-	}
-	
-	private boolean doesPieceBelongToPlayer(DraughtBoard board, int x, int y) {
-		return (board.getPiece(x,y)==(board.isWhitesTurn?DraughtBoard.WHITE:DraughtBoard.BLACK));
-	}
-
-	private boolean isValidCapture(DraughtBoard board, int x, int y, char dir) { //1 is right, -1 is left.
-		boolean flag=false;
-		try {
-			flag =(board.getPiece(x+(dir==DraughtBoard.RIGHT?1:-1), y+(board.isWhitesTurn?1:-1))==(board.isWhitesTurn?DraughtBoard.BLACK:DraughtBoard.WHITE))
-					&&(board.getPiece(x+(dir==DraughtBoard.RIGHT?2:-2), y+(board.isWhitesTurn?2:-2))==DraughtBoard.EMPTY);
-		} catch (ArrayIndexOutOfBoundsException e) {return false;}
-		return flag;
-	}
-	
-	private boolean isValidMove(DraughtBoard board, int x, int y, char dir) { //1 is right, -1 is left.
-		boolean flag=false;
-		try {
-			flag =(board.getPiece(x+(dir==DraughtBoard.RIGHT?1:-1), y+(board.isWhitesTurn?1:-1))==DraughtBoard.EMPTY);
-		} catch (ArrayIndexOutOfBoundsException e) {return false;}
-		return flag;
 	}
 }
