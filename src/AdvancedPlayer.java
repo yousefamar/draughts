@@ -1,27 +1,29 @@
 import java.util.Random;
 
-public class AdvancedPlayer extends Player{
+public class AdvancedPlayer extends BasicPlayer{
 
 	public AdvancedPlayer(char colour) {
 		super(colour);
 	}
 
 	public int movePiece(DraughtBoard board) {
-		/*
-		 * AdvancedPlayer uses an offensive algorithm that is more likely to win
-		 * although losing more pieces as the foremost pieces are moved first exposing gaps.
+		/* AdvancedPlayer uses an offensive algorithm that is more likely to win,
+		 * although losing more pieces, as the foremost pieces are moved first exposing gaps.
 		 * The selection of a piece to move is sequential and directions are random.
 		 * Furthermore, AdvancedPlayer checks whether a move is safe one level deep before pursuing it.
+		 * 
+		 * The algorithm is purely iterative and simple. It cannot be used recursively to
+		 * look forward a number of moves as is normally the case.
 		 */
 		//TODO: Randomise x values for unpredictable element. 
 		Random rand = new Random();
 		boolean shouldBeSafe = true;
 		while(true) { 
-			//Find optimal capture.
-			for (int y=isWhite?7:0;isWhite?y>=0:y<8;y+=isWhite?-1:1) //Invert the order if white.
-				for (int x=isWhite?7:0;isWhite?x>=0:x<8;x+=isWhite?-1:1) //Invert the order if white.
+			/* Find optimal capture */
+			for (int y=isWhite?7:0;isWhite?y>=0:y<8;y+=isWhite?-1:1) /* Invert the order if white */
+				for (int x=isWhite?7:0;isWhite?x>=0:x<8;x+=isWhite?-1:1) /* Invert the order if white */
 					if(doesOwnPiece(board, x, y)) {
-						//Randomise the order of directions checked.
+						/* Randomise the order of directions checked */
 						char firstDir = rand.nextBoolean()?DraughtBoard.RIGHT:DraughtBoard.LEFT;
 						char secondDir = firstDir==DraughtBoard.RIGHT?DraughtBoard.LEFT:DraughtBoard.RIGHT;
 						if(isValidCapture(board, x, y, firstDir) && (!shouldBeSafe || isSafeCapture(board, x, y, firstDir))) {
@@ -39,11 +41,11 @@ public class AdvancedPlayer extends Player{
 							return 0;
 						}
 					}
-			//Find first optimal move.
-			for (int y=isWhite?7:0;isWhite?y>=0:y<8;y+=isWhite?-1:1) //Invert the order if white.
-				for (int x=isWhite?7:0;isWhite?x>=0:x<8;x+=isWhite?-1:1) //Invert the order if white.
+			/* Find first optimal move */
+			for (int y=isWhite?7:0;isWhite?y>=0:y<8;y+=isWhite?-1:1) /* Invert the order if white */
+				for (int x=isWhite?7:0;isWhite?x>=0:x<8;x+=isWhite?-1:1) /* Invert the order if white */
 					if(doesOwnPiece(board, x, y)) {
-						//Randomise the order of directions checked.
+						/* Randomise the order of directions checked */
 						char firstDir = rand.nextBoolean()?DraughtBoard.RIGHT:DraughtBoard.LEFT;
 						char secondDir = firstDir==DraughtBoard.RIGHT?DraughtBoard.LEFT:DraughtBoard.RIGHT;
 						if(isValidMove(board, x, y, firstDir) && (!shouldBeSafe || isSafeMove(board, x, y, firstDir))) {
@@ -61,9 +63,9 @@ public class AdvancedPlayer extends Player{
 							return 0;
 						}
 					}
-			if(!shouldBeSafe) //If no possible moves at all are found, skip turn.
+			if(!shouldBeSafe) /* If no possible moves at all are found, skip turn */
 				break;
-			//If no safe moves are found, disable safety priority.
+			/* If no safe moves are found, disable safety priority */
 			shouldBeSafe = false;
 		}
 		return 0;
