@@ -312,6 +312,6 @@ public class GameOfDraughtsGUI
 
 		JFrame frame=new GameOfDraughtsFrame();
 
-		frame.show();
+		frame.setVisible(true);
 	}
 }
